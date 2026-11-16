@@ -27,8 +27,11 @@ Play LOREVA here:
 
 ## 📸 Screenshots
 
-Screenshots of the gameplay will be added here.
+<img width="1600" height="900" alt="loreva-cover" src="https://github.com/user-attachments/assets/3c68bb5f-2dad-44a5-8017-6fe7b845076f" /> <img width="1600" height="900" alt="loreva-fitur" src="https://github.com/user-attachments/assets/b4e1bb5c-05fc-4185-ad48-0b9cf56f9497" />
+
+
 
 ## 👩‍💻 Developer
 
-Created as an educational game project.
+Gita Cahya 
+
