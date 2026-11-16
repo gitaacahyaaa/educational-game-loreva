@@ -23,7 +23,7 @@ LOREVA is an educational adventure game that combines learning and exploration t
 
 Play LOREVA here:
 
-[Play LOREVA](PASTE_YOUR_NETLIFY_LINK_HERE)
+(https://playloreva.netlify.app)
 
 ## 📸 Screenshots
 
