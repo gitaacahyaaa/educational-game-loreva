@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LOREVA — Lore of Exploration, Victory, and Adventure</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+
+<body>
+    <div id="stars"></div>
+    <div class="moon"></div>
+
+    <main class="hero">
+        <p class="kicker">★ Lore of Exploration, Victory, and Adventure ★</p>
+        <h1 aria-label="LOREVA"><span>L</span><span>O</span><span>R</span><span>E</span><span>V</span><span>A</span>
+        </h1>
+        <p class="tag">Jelajahi dunia misterius. Pecahkan teka-teki. Kalahkan para monster dengan ilmu pengetahuan!</p>
+        <div class="cta">
+            <a class="btn big" href="play.html">▶ MAIN SEKARANG</a>
+            <a class="btn ghost" href="admin.html">🛠 GURU / ADMIN</a>
+        </div>
+    </main>
+
+    <canvas id="strip" width="320" height="96"></canvas>
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/game/sprites.js"></script>
+    <script>
+        // bintang berkelip
+        const st = document.getElementById('stars');
+        for (let i = 0; i < 70; i++) {
+            const s = document.createElement('i');
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 70 + '%';
+            s.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+            st.appendChild(s);
+        }
+        // adegan pahlawan berjalan
+        (() => {
+            const c = document.getElementById('strip'), g = c.getContext('2d');
+            g.imageSmoothingEnabled = false;
+            const heroes = ['knight', 'mage', 'rogue']; let hi = 0, t = 0, last = 0, flash = 0;
+            const mons = [{ x: 330, k: 'slime' }, { x: 520, k: 'mushroom' }];
+            setInterval(() => hi = (hi + 1) % 3, 4000);
+            function frame(ts) {
+                const dt = Math.min(.05, (ts - last) / 1000 || 0); last = ts; t += dt; flash = Math.max(0, flash - dt);
+                g.clearRect(0, 0, 320, 96);
+                const gy = 72;
+                g.fillStyle = '#4caf50'; g.fillRect(0, gy, 320, 24);
+                g.fillStyle = '#2e7d32'; g.fillRect(0, gy, 320, 3);
+                const off = (t * 60) % 32;
+                for (let x = -off; x < 320; x += 32) { g.fillStyle = '#43a047'; g.fillRect(x + 8, gy + 10, 3, 5); g.fillRect(x + 20, gy + 16, 3, 4); }
+                mons.forEach((m, i) => {
+                    m.x -= dt * 60;
+                    if (m.x < 98) { m.x = 330 + Math.random() * 160; flash = .25; }
+                    const bob = Math.abs(Math.sin(t * 4 + i)) * 5;
+                    g.drawImage(LV.Sprites.sprite(m.k, 2), Math.round(m.x), Math.round(gy - 30 - bob));
+                });
+                const f = [0, 1, 0, 2][Math.floor(t * 9) % 4];
+                g.drawImage(LV.Sprites.human(heroes[hi], f, 'right'), 60, gy - 30);
+                if (flash > 0) { g.fillStyle = '#fff7b0'; g.fillRect(92, gy - 18, 12, 3); g.fillRect(96, gy - 24, 3, 14); g.fillRect(90, gy - 22, 3, 3); g.fillRect(104, gy - 14, 3, 3); }
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        })();
+    </script>
+</body>
+
+</html>

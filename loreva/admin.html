@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LOREVA — Panel Guru</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <section id="auth-view" class="auth">
+        <form id="login-form" class="card auth-card">
+            <div class="brand">LOREVA</div>
+            <p class="muted">Panel Guru</p>
+            <label>Email<input id="login-email" type="email" required autocomplete="username"></label>
+            <label>Password<input id="login-pass" type="password" required autocomplete="current-password"></label>
+            <p id="login-msg" class="msg" role="alert"></p>
+            <button id="login-btn" class="btn primary" type="submit">Masuk</button>
+            <a class="link" href="index.html">← Kembali ke game</a>
+        </form>
+    </section>
+
+    <!-- DASHBOARD -->
+    <div id="app-view" class="hidden">
+        <header class="top">
+            <div class="brand sm">LOREVA <span class="muted">Panel Guru</span></div>
+            <nav>
+                <button id="nav-packs" class="tab active">Paket Soal</button>
+                <button id="nav-results" class="tab">Hasil Siswa</button>
+            </nav>
+            <div class="who"><span id="who"></span><button id="btn-logout" class="btn">Keluar</button></div>
+        </header>
+
+        <main id="tab-packs" class="layout">
+            <aside class="side">
+                <button id="btn-new-pack" class="btn primary block">+ Paket baru</button>
+                <ul id="pack-list" class="packs"></ul>
+            </aside>
+            <section id="editor" class="card editor">
+                <p class="muted pad">Pilih paket di kiri, atau buat paket baru.</p>
+            </section>
+        </main>
+
+        <main id="tab-results" class="hidden wrap">
+            <div class="card">
+                <div class="ed-head">
+                    <h2>Hasil Permainan Siswa</h2><button id="btn-reload-results" class="btn">↻ Muat ulang</button>
+                </div>
+                <div id="results-body" class="table-wrap"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL SOAL -->
+    <div id="modal" class="modal hidden">
+        <form id="q-form" class="card modal-card">
+            <h3 id="m-title">Tambah Soal</h3>
+
+            <label>Tipe soal
+                <select id="m-type">
+                    <option value="mcq">Pilihan ganda (A-D)</option>
+                    <option value="tf">Benar / Salah</option>
+                    <option value="short">Isian singkat</option>
+                </select>
+            </label>
+
+            <label>Pertanyaan / pernyataan<textarea id="m-q" rows="3" maxlength="500" required></textarea></label>
+
+            <div id="grp-mcq">
+                <div class="opts">
+                    <label class="opt"><input type="radio" name="m-correct" value="A" checked><b>A</b><input id="m-a"
+                            maxlength="150"></label>
+                    <label class="opt"><input type="radio" name="m-correct" value="B"><b>B</b><input id="m-b"
+                            maxlength="150"></label>
+                    <label class="opt"><input type="radio" name="m-correct" value="C"><b>C</b><input id="m-c"
+                            maxlength="150"></label>
+                    <label class="opt"><input type="radio" name="m-correct" value="D"><b>D</b><input id="m-d"
+                            maxlength="150"></label>
+                </div>
+                <p class="muted small">Pilih bulatan di samping jawaban yang benar.</p>
+            </div>
+
+            <div id="grp-tf" class="hidden">
+                <div class="opts">
+                    <label class="opt"><input type="radio" name="m-tf" value="A" checked><b>✓</b><span>Pernyataan ini
+                            BENAR</span></label>
+                    <label class="opt"><input type="radio" name="m-tf" value="B"><b>✗</b><span>Pernyataan ini
+                            SALAH</span></label>
+                </div>
+                <p class="muted small">Tulis pertanyaan di atas dalam bentuk pernyataan, lalu pilih kuncinya.</p>
+            </div>
+
+            <div id="grp-short" class="hidden">
+                <label>Jawaban yang dianggap benar (satu per baris)
+                    <textarea id="m-acc" rows="3" maxlength="300" placeholder="96&#10;sembilan puluh enam"></textarea>
+                </label>
+                <p class="muted small">Huruf besar/kecil diabaikan. Angka "0,75" dan "0.75" dianggap sama. Tulis variasi
+                    jawaban lain di baris terpisah.</p>
+            </div>
+
+            <label>Petunjuk (opsional)<input id="m-hint" maxlength="200"></label>
+            <label>Pembahasan (tampil saat siswa salah) *<textarea id="m-exp" rows="2" maxlength="400"
+                    required></textarea></label>
+            <div class="row">
+                <button type="button" id="m-cancel" class="btn">Batal</button>
+                <button id="m-save" class="btn primary" type="submit">Simpan</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/core/supabase-config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/data/auth.js"></script>
+    <script src="js/data/pack-api.js"></script>
+    <script src="js/admin/question-editor.js"></script>
+    <script src="js/admin/pack-editor.js"></script>
+    <script src="js/admin/admin-app.js"></script>
+</body>
+
+</html>

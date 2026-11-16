@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>LOREVA — Petualangan</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="stage">
+            <canvas id="game" width="640" height="448"></canvas>
+            <div id="hud" class="hidden">
+                <div class="h-grp"><span id="hud-name"></span><span id="hud-hearts" class="hearts"></span></div>
+                <div class="h-grp mid"><span id="hud-level"></span><span id="hud-quest"></span></div>
+                <div class="h-grp right">
+                    <span class="chip"><img id="hud-coin-ic" alt=""><b id="hud-coins">0</b></span>
+                    <button class="chip" id="hud-potion" title="Pakai ramuan (H)"><img id="hud-potion-ic" alt=""><b
+                            id="hud-potions">0</b></button>
+                    <span class="chip" id="hud-time">00:00</span>
+                    <button class="chip" id="hud-mute">🔊</button>
+                    <button class="chip" id="hud-menu" title="Simpan & ke menu">☰</button>
+                </div>
+            </div>
+            <div id="prompt" class="hidden"></div>
+            <div id="toast" class="hidden"></div>
+            <div id="banner" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- LAYAR MENU -->
+    <section id="scr-menu" class="screen">
+        <div class="panel">
+            <h1 class="logo">LOREVA</h1>
+            <p class="sub">Lore of Exploration, Victory, and Adventure</p>
+            <div class="menu-list">
+                <button id="btn-new" class="btn big">⚔ PETUALANGAN BARU</button>
+                <button id="btn-continue" class="btn big ghost">▶ LANJUTKAN</button>
+                <small id="continue-info"></small>
+                <div class="row">
+                    <button id="btn-sound" class="btn ghost">🔊 SUARA</button>
+                    <a class="btn ghost" href="admin.html">🛠 GURU</a>
+                    <a class="btn ghost" href="index.html">⌂ BERANDA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="scr-char" class="screen hidden">
+        <div class="panel">
+            <h2>PILIH KARAKTERMU</h2>
+            <label class="field">Nama petualang
+                <input id="in-name" maxlength="14" placeholder="Petualang" autocomplete="off">
+            </label>
+            <div id="char-cards" class="cards"></div>
+            <div class="row">
+                <button id="btn-char-back" class="btn ghost">◀ KEMBALI</button>
+                <button id="btn-char-next" class="btn">LANJUT ▶</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="scr-pack" class="screen hidden">
+        <div class="panel">
+            <h2>PILIH PAKET SOAL</h2>
+            <div id="pack-list" class="packs"></div>
+            <div class="row"><button id="btn-pack-back" class="btn ghost">◀ KEMBALI</button></div>
+        </div>
+    </section>
+
+    <section id="scr-result" class="screen hidden">
+        <div class="panel">
+            <h2>PETUALANGAN SELESAI!</h2>
+            <div id="res-body"></div>
+            <p id="res-sync" class="sync"></p>
+            <button id="btn-sync" class="btn ghost hidden">↻ COBA KIRIM LAGI</button>
+            <div class="row">
+                <button id="btn-csv" class="btn">⬇ LAPORAN CSV</button>
+                <button id="btn-again" class="btn ghost">↻ MAIN LAGI</button>
+                <button id="btn-res-menu" class="btn ghost">⌂ MENU</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL KUIS -->
+    <div id="quiz" class="hidden">
+        <div class="panel qcard">
+            <div class="q-head">
+                <div><span id="q-title"></span><span id="q-sub"></span></div>
+                <span id="q-clock">0s</span>
+            </div>
+            <div id="duel" class="duel hidden">
+                <div class="fighter"><img id="duel-p" alt="">
+                    <div id="duel-ph" class="hearts"></div>
+                </div>
+                <div class="vs">VS</div>
+                <div class="fighter"><img id="duel-m" alt="">
+                    <div id="duel-mn" class="mname"></div>
+                    <div class="mhp"><i id="duel-mb"></i></div>
+                </div>
+            </div>
+            <div class="timebar"><i id="q-bar"></i></div>
+            <p id="q-text"></p>
+            <div id="q-options"></div>
+            <div class="hintrow">
+                <button id="q-hint" class="btn ghost">💡 PETUNJUK (-1 koin)</button>
+                <span id="q-hint-text"></span>
+            </div>
+            <div id="q-feedback" class="hidden">
+                <div id="q-verdict"></div>
+                <p id="q-explain"></p>
+                <button id="q-next" class="btn">LANJUT ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- KONTROL MOBILE -->
+    <div id="touch">
+        <div class="dpad">
+            <button data-dir="up">▲</button><button data-dir="left">◀</button>
+            <button data-dir="right">▶</button><button data-dir="down">▼</button>
+        </div>
+        <button id="btn-act">⚔</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/core/config.js"></script>
+    <script src="js/core/supabase-config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/storage.js"></script>
+    <script src="js/data/question-manager.js"></script>
+    <script src="js/data/result-api.js"></script>
+    <script src="js/game/sprites.js"></script>
+    <script src="js/game/audio.js"></script>
+    <script src="js/game/input.js"></script>
+    <script src="js/game/particles.js"></script>
+    <script src="js/game/progress.js"></script>
+    <script src="js/game/player.js"></script>
+    <script src="js/game/monsters.js"></script>
+    <script src="js/game/renderer.js"></script>
+    <script src="js/game/hud.js"></script>
+    <script src="js/game/quiz-system.js"></script>
+    <script src="js/game/challenges/question-gate.js"></script>
+    <script src="js/game/challenges/monster-battle.js"></script>
+    <script src="js/game/challenges/treasure-chest.js"></script>
+    <script src="js/game/challenges/puzzle-area.js"></script>
+    <script src="js/game/challenges/boss-battle.js"></script>
+    <script src="js/levels/level1-forest.js"></script>
+    <script src="js/game/engine.js"></script>
+    <script src="js/ui/report-csv.js"></script>
+    <script src="js/ui/result-screen.js"></script>
+    <script src="js/ui/character-select.js"></script>
+    <script src="js/ui/pack-select.js"></script>
+    <script src="js/ui/menu.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

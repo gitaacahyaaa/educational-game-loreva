@@ -1,0 +1,70 @@
+@media (max-width: 640px) {
+    body {
+        font-size: 20px;
+    }
+
+    #q-options {
+        grid-template-columns: 1fr;
+    }
+
+    #q-text {
+        font-size: 26px;
+    }
+
+    .opt {
+        font-size: 23px;
+        padding: 8px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    #hud-level {
+        display: none;
+    }
+
+    .fighter img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .screen .panel {
+        padding: 16px;
+    }
+}
+
+@media (max-height: 500px) {
+    .qcard {
+        padding: 10px 14px;
+    }
+
+    #q-text {
+        font-size: 22px;
+        min-height: 0;
+        margin: 4px 0 8px;
+    }
+
+    .opt {
+        font-size: 20px;
+        padding: 6px 8px;
+    }
+
+    .duel {
+        min-height: 100px;
+    }
+
+    .fighter img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .logo {
+        font-size: 30px;
+    }
+
+    .menu-list {
+        margin-top: 10px;
+        gap: 8px;
+    }
+}
